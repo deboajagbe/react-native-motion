@@ -8,7 +8,9 @@ const propTypes = {
   scaleMin: PropTypes.number,
   duration: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
   animateOnDidMount: PropTypes.bool,
+  isHidden: PropTypes.bool,
   delay: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+  useNativeDriver: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
 };
 const defaultProps = {
   type: 'timing',
@@ -16,6 +18,9 @@ const defaultProps = {
   scaleMin: 0.8,
   duration: 500,
   animateOnDidMount: false,
+  isHidden: true,
+  delay: 0,
+  useNativeDriver: false,
 };
 
 class ScaleAndOpacity extends PureComponent {

@@ -6,13 +6,17 @@ const propTypes = {
   opacityMin: PropTypes.number,
   translateYMin: PropTypes.number,
   duration: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-  startOnDidMount: PropTypes.bool,
+  animateOnDidMount: PropTypes.bool,
+  delay: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+  useNativeDriver: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
 };
 const defaultProps = {
   opacityMin: 0,
   translateYMin: -4,
   duration: 500,
-  startOnDidMount: false,
+  animateOnDidMount: false,
+  delay: 0,
+  useNativeDriver: false,
 };
 
 class TranslateYAndOpacity extends PureComponent {
@@ -27,9 +31,9 @@ class TranslateYAndOpacity extends PureComponent {
     };
   }
   componentDidMount() {
-    const { startOnDidMount } = this.props;
+    const { animateOnDidMount } = this.props;
 
-    if (startOnDidMount) {
+    if (animateOnDidMount) {
       InteractionManager.runAfterInteractions().then(() => {
         this.show(this.props);
       });
@@ -47,20 +51,16 @@ class TranslateYAndOpacity extends PureComponent {
   }
   show(props) {
     const { opacityValue, translateYValue } = this.state;
-    const { duration, delay, onShowDidFinish } = props;
+    const { onShowDidFinish, ...rest } = props;
 
     Animated.parallel([
       Animated.timing(opacityValue, {
         toValue: 1,
-        useNativeDriver: true,
-        duration,
-        delay,
+        ...rest,
       }),
       Animated.timing(translateYValue, {
         toValue: 0,
-        useNativeDriver: true,
-        duration,
-        delay,
+        ...rest,
       }),
     ]).start(() => {
       if (onShowDidFinish) {
@@ -70,26 +70,16 @@ class TranslateYAndOpacity extends PureComponent {
   }
   hide(props) {
     const { translateYValue, opacityValue } = this.state;
-    const {
-      duration,
-      delay,
-      opacityMin,
-      translateYMin,
-      onHideDidFinish,
-    } = props;
+    const { opacityMin, translateYMin, onHideDidFinish, ...rest } = props;
 
     Animated.parallel([
       Animated.timing(opacityValue, {
         toValue: opacityMin,
-        useNativeDriver: true,
-        duration,
-        delay,
+        ...rest,
       }),
       Animated.timing(translateYValue, {
         toValue: translateYMin,
-        useNativeDriver: true,
-        duration,
-        delay,
+        ...rest,
       }),
     ]).start(() => {
       if (onHideDidFinish) {

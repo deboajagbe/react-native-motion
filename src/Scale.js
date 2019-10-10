@@ -19,6 +19,8 @@ class Scale extends PureComponent {
 
     const { value, initValue } = props;
 
+    this.interaction = null;
+
     this.state = {
       scaleValue: new Animated.Value(initValue || value),
     };
@@ -36,7 +38,18 @@ class Scale extends PureComponent {
     const { value } = this.props;
 
     if (value !== nextProps.value) {
-      this.move(nextProps);
+      if (this.interaction) {
+        this.interaction.cancel();
+      }
+
+      if (nextProps.runAfterInteractions) {
+        this.interaction = InteractionManager.runAfterInteractions(() => {
+          this.interaction = null;
+          this.move(nextProps);
+        });
+      } else {
+        this.move(nextProps);
+      }
     }
   }
   move = props => {

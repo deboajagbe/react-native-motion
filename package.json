@@ -1,9 +1,12 @@
 {
   "name": "react-native-motion",
-  "version": "0.2.0",
+  "version": "0.0.1",
   "description": "React Native Motion",
   "main": "./index.js",
   "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "coverage": "rimraf coverage && jest --coverage",
     "lint": "eslint ./"
   },
   "repository": {
@@ -13,7 +16,11 @@
   "jest": {
     "preset": "react-native",
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "testMatch": [
+      "<rootDir>/__tests__/**/*.test.js?(x)",
+      "<rootDir>/src/**/*.test.js"
+    ]
   },
   "keywords": [
     "react-native",
@@ -52,6 +59,7 @@
     "eslint-plugin-react-native": "^3.5.0",
     "prettier": "^1.14.3",
     "react": "16.4.1",
-    "react-native": "^0.57.4"
+    "react-native": "^0.57.4",
+    "semantic-release": "^15.13.3"
   }
 }
